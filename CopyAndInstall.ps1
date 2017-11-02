@@ -34,15 +34,15 @@ if($trustedCert -eq $null){
 }
 
 
-$initialPath = convert-path .
+$initialPath = "\\fenix\Distrib\Zabbix\fbiAgent\"
 $path = "C:\Windows\Zabbix\"
 
 get-process zabbix_agentd | Stop-Process -Force
 
 
-Get-ChildItem -Path $path | Remove-Item -Recurse -Force
+Get-ChildItem -Path $path -Exclude '.*' | Remove-Item -Recurse -Force
 
-Copy-Item -Path .\* -Destination $path -Force -Recurse -Verbose
+Get-ChildItem -Path $initialPath | Copy-Item -Destination $path -Force -Recurse
 
 Set-Location $path
 
@@ -53,8 +53,8 @@ Set-Location $initialPath
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUmgorr7051Rseukn0fGjPuqtV
-# YGigggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUUi1T3p22gGRlT0TXzAWex6J9
+# QpagggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -92,9 +92,9 @@ Set-Location $initialPath
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFNoWOr2K9OmrRehSLe7K
-# 2OcP8GLYMA0GCSqGSIb3DQEBAQUABIGAvQbrdIc9Iq5VT1WFn0ESoRane2kmfHNU
-# M98fhTDqHiayhxUYQtQd7YCDeE9yZUsRi/3tCV6aTRQDrW/4htV8FL//rzr+x8AU
-# cccLJnHJhkQjdMkNliHnvfPojuBtAv/rNUfDaUXaMu2yw9kNc90n82bJ5ELwu+/X
-# kurNLlp481w=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFEyPnYBCfZWRq3qMWW7J
+# dsVcmONaMA0GCSqGSIb3DQEBAQUABIGAqy8xvuFKRNaER+5YodODXQH2STqh+XMl
+# /+VZgvewaO9LCzDr7qxdSly0LfMtO8fn6KAjQI4KEVl6b17LxIzZg2ih3py+dAns
+# 4D1HiDlmY979lR/3DpgAYAEauTqGj0Y61NxS3SWaoZRDyznbXv/kPEAmAg+lTn5T
+# DLojaA+1iVo=
 # SIG # End signature block

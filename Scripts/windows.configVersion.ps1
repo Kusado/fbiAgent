@@ -1,16 +1,17 @@
 Param(
-    [switch]$serverVerison
+  [Parameter(Mandatory=$False,Position=1)]    
+  [string]$serverVerison
   )
-  if ($serverVerison) {
-      \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
-  }else {
-    2017110104
+  if ($serverVerison -eq "server") {
+    \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
+  }else{
+    2017110203
   }
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUwxsUYk9FgazTxVbiHcu1pilP
-# 0gmgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUNEjlV9D14wqCTf+/jXdRrPFC
+# +HKgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -48,9 +49,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFC6HOlDDBUqJ64v+Zu7w
-# lO1BX/WkMA0GCSqGSIb3DQEBAQUABIGAAtNgkFElxv+hqqD8POwuMiCG/At3HVt5
-# eaDJmGg1ChCxEKfZCgn6h/TeAr/ilrbFDax6Q5nA1Qo4BBrCaTFBCrHizwRbwczE
-# JJUSERSjE37rheoxORyWnwC2/mC6b3eryWNL5IWHO4RB95I6/vA4TVfsAxCwxRH5
-# l1wDo52/q1E=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFH7PhVLqIr6YSbizWHUb
+# LtTHqooyMA0GCSqGSIb3DQEBAQUABIGACJMnHh2Xv7Cm+x/8aHR9KQHBZtVOmGPY
+# ioHIF1gQVmxfx9fbKfqdtKbHsbLKktT7kM8tDb7gE2eSl4998HIqyQ6pgFOJA1hT
+# SgIC3dhT6vZaJ6kFNR6py130cGVwMyynxaat9P8IHCMyud9x/tQwezjhspq1JW2V
+# Mr2OJmAOj+c=
 # SIG # End signature block
