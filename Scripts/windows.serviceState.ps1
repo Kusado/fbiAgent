@@ -1,19 +1,28 @@
 Param(
-  [Parameter(Mandatory=$False,Position=1)]    
-  [string]$serverVerison,
-  [Parameter(Mandatory=$False,Position=2)]    
-  [string]$param2
-  )
-  if ($serverVerison -eq 'server') {
-    \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
-  }else{
-    20171100706
-  }
+[Parameter(Mandatory=$True,Position=1)]    
+[string]$serviceName,
+[Parameter(Mandatory=$false,Position=2)]    
+[string] $deb
+)
+
+$sService = "'"+$serviceName+"'"
+if($deb -eq "deb"){
+    $serviceName
+    $sService
+}
+$s = get-service -ServiceName $sService -ErrorAction SilentlyContinue
+if ($s -eq $null){
+    -1
+}elseif ($s.Status -eq "running") {
+    1
+}else {
+    0
+}
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU1aDVZb62xi222cH/HJ3iu5og
-# EB6gggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUW4kxzkOhCV0WUiC27PpPBbyp
+# 0QGgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -51,9 +60,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFHz1ORjbnnkHDc/FatxJ
-# Le8Dx81xMA0GCSqGSIb3DQEBAQUABIGAzWoTqW5BWRrOAkAfBB43Mmz3Vmgijq4a
-# bq9dWOFefUC5sjSrBNZGDIaDOrT4mlhWEspfZHxa5JnqwFOTgf5thMJSnRtffvpf
-# qu3AaADCG5YgULqw/qTPD8q8x6fBq46+IUBOonWCsXBYI8n5RE6MzekxB+20CCiI
-# S8VIoCqykX4=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFJjDZgVxE+nhic+HQ44G
+# gLC9ySDAMA0GCSqGSIb3DQEBAQUABIGArbkeY9tWAcz4LbDrd4szSVWpPKaZIX82
+# AtmowvE1/AYVzPcm+mIK9b3EdjzCPN34iYudSvITjClCagZur5vUQKJSWuCqJeLd
+# BtdpuFGpt1p4z0yETnym1rh/a3OLmMTAa/yrtmTCAQ9d15fFlLXlWHfO2gmeyqrH
+# s5Y8M7gqqY0=
 # SIG # End signature block

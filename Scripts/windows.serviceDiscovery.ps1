@@ -1,19 +1,27 @@
 Param(
-  [Parameter(Mandatory=$False,Position=1)]    
-  [string]$serverVerison,
-  [Parameter(Mandatory=$False,Position=2)]    
-  [string]$param2
-  )
-  if ($serverVerison -eq 'server') {
-    \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
-  }else{
-    20171100706
-  }
+    [Parameter(Mandatory=$False,Position=1)]    
+    [string]$param1,
+    [Parameter(Mandatory=$False,Position=2)]    
+    [string]$param2
+    )
+
+. C:\WIndows\Zabbix\Scripts\func.JSON.ps1
+
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8  
+
+$services = Get-WmiObject Win32_Service |  where {$_.StartMode -eq "Auto"} | Select-Object -Property `
+@{Name="{#SERVICESTATE}";Expression = {$_.State}},`
+@{Name="{#SERVICEDISPLAY}"; Expression = {$_.DisplayName}},`
+@{Name="{#SERVICENAME}"; Expression = {$_.Name} },`
+@{Name="{#SERVICESTARTUP}";Expression={$_.StartMode}}
+
+$zabbixLLD = @{data=$services}  | ConvertTo-JSON2
+[Console]::WriteLine( $zabbixLLD )
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU1aDVZb62xi222cH/HJ3iu5og
-# EB6gggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU9QMRBQPgYMbN/yOPzXAo2xCv
+# koCgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -51,9 +59,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFHz1ORjbnnkHDc/FatxJ
-# Le8Dx81xMA0GCSqGSIb3DQEBAQUABIGAzWoTqW5BWRrOAkAfBB43Mmz3Vmgijq4a
-# bq9dWOFefUC5sjSrBNZGDIaDOrT4mlhWEspfZHxa5JnqwFOTgf5thMJSnRtffvpf
-# qu3AaADCG5YgULqw/qTPD8q8x6fBq46+IUBOonWCsXBYI8n5RE6MzekxB+20CCiI
-# S8VIoCqykX4=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFJHhbVYeFLBwXrc5ydUI
+# nV/SVIoZMA0GCSqGSIb3DQEBAQUABIGAnRxMksNq6R224Df50gs4gNvFaiiL23LS
+# gga1oRFEf96M6D0TBW+W7LN9W6HaESO+/xjpu3GK3GafIbdU4SplKZbDDY7BFr8b
+# yV6b4BsreMefQSbuVwzIWmAV3ssAmIHxxCQsH9J7rrtMvIM8t6gkFYPYb7L/XHZr
+# f1Dr0wcbyRQ=
 # SIG # End signature block

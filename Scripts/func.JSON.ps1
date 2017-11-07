@@ -1,19 +1,89 @@
-Param(
-  [Parameter(Mandatory=$False,Position=1)]    
-  [string]$serverVerison,
-  [Parameter(Mandatory=$False,Position=2)]    
-  [string]$param2
-  )
-  if ($serverVerison -eq 'server') {
-    \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
-  }else{
-    20171100706
-  }
+function Escape-JSONString($str){
+	if ($str -eq $null) {return ""}
+	$str = $str.ToString().Replace('"','\"').Replace('\','\\').Replace("`n",'\n').Replace("`r",'\r').Replace("`t",'\t')
+	return $str;
+}
+
+function ConvertTo-JSON2($maxDepth = 4,$forceArray = $false) {
+	begin {
+		$data = @()
+	}
+	process{
+		$data += $_
+	}
+	
+	end{
+	
+		if ($data.length -eq 1 -and $forceArray -eq $false) {
+			$value = $data[0]
+		} else {	
+			$value = $data
+		}
+
+		if ($value -eq $null) {
+			return "null"
+		}
+
+		
+
+		$dataType = $value.GetType().Name
+		
+		switch -regex ($dataType) {
+	            'String'  {
+					return  "`"{0}`"" -f (Escape-JSONString $value )
+				}
+	            '(System\.)?DateTime'  {return  "`"{0:yyyy-MM-dd}T{0:HH:mm:ss}`"" -f $value}
+	            'Int32|Double' {return  "$value"}
+				'Boolean' {return  "$value".ToLower()}
+	            '(System\.)?Object\[\]' { # array
+					
+					if ($maxDepth -le 0){return "`"$value`""}
+					
+					$jsonResult = ''
+					foreach($elem in $value){
+						#if ($elem -eq $null) {continue}
+						if ($jsonResult.Length -gt 0) {$jsonResult +=', '}				
+						$jsonResult += ($elem | ConvertTo-JSON2 -maxDepth ($maxDepth -1))
+					}
+					return "[" + $jsonResult + "]"
+	            }
+				'(System\.)?Hashtable' { # hashtable
+					$jsonResult = ''
+					foreach($key in $value.Keys){
+						if ($jsonResult.Length -gt 0) {$jsonResult +=', '}
+						$jsonResult += 
+@"
+	"{0}": {1}
+"@ -f $key , ($value[$key] | ConvertTo-JSON2 -maxDepth ($maxDepth -1) )
+					}
+					return "{" + $jsonResult + "}"
+				}
+	            default { #object
+					if ($maxDepth -le 0){return  "`"{0}`"" -f (Escape-JSONString $value)}
+					
+					return "{" +
+						(($value | Get-Member -MemberType *property | % { 
+@"
+	"{0}": {1}
+"@ -f $_.Name , ($value.($_.Name) | ConvertTo-JSON2 -maxDepth ($maxDepth -1) )			
+					
+					}) -join ', ') + "}"
+	    		}
+		}
+	}
+}
+	
+	
+#"a" | ConvertTo-JSON
+#dir \ | ConvertTo-JSON 
+#(get-date) | ConvertTo-JSON
+#(dir \)[0] | ConvertTo-JSON -maxDepth 1
+#@{ "asd" = "sdfads" ; "a" = 2 } | ConvertTo-JSON
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU1aDVZb62xi222cH/HJ3iu5og
-# EB6gggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUKLUaVcEDaiQdfaJlICCO8Sze
+# KUWgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -51,9 +121,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFHz1ORjbnnkHDc/FatxJ
-# Le8Dx81xMA0GCSqGSIb3DQEBAQUABIGAzWoTqW5BWRrOAkAfBB43Mmz3Vmgijq4a
-# bq9dWOFefUC5sjSrBNZGDIaDOrT4mlhWEspfZHxa5JnqwFOTgf5thMJSnRtffvpf
-# qu3AaADCG5YgULqw/qTPD8q8x6fBq46+IUBOonWCsXBYI8n5RE6MzekxB+20CCiI
-# S8VIoCqykX4=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFFSklxcmKRWVtbBiJ074
+# lXbdAcsCMA0GCSqGSIb3DQEBAQUABIGAbkCzUkxwUfwgOGO6RfKlSLeNQ6ZbTa5v
+# MzaqSllsef6NNDlK+Mn+xtKRpCCCNCPhhNhZ+dbFHI+xGwrFAfasIIbEQV194yYw
+# YqJCLjka25tFxjcj1FdrqHgOsmtAuPNBNYSqaW194DSgu2ZRrT9Kv8lLcPggONC4
+# Mwmmp0H0+L8=
 # SIG # End signature block
