@@ -5,14 +5,12 @@ Param(
 [string] $deb
 )
 
-$sService = "'"+$serviceName+"'"
 if($deb -eq "deb"){
     $serviceName
-    $sService
 }
-$s = get-service -ServiceName $sService -ErrorAction SilentlyContinue
+$s = get-service -ServiceName $serviceName -ErrorAction SilentlyContinue
 if ($s -eq $null){
-    -1
+    2
 }elseif ($s.Status -eq "running") {
     1
 }else {
@@ -21,8 +19,8 @@ if ($s -eq $null){
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUW4kxzkOhCV0WUiC27PpPBbyp
-# 0QGgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUsQGuCfCO3ogrny6yozFxDELI
+# UfOgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -60,9 +58,9 @@ if ($s -eq $null){
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFJjDZgVxE+nhic+HQ44G
-# gLC9ySDAMA0GCSqGSIb3DQEBAQUABIGArbkeY9tWAcz4LbDrd4szSVWpPKaZIX82
-# AtmowvE1/AYVzPcm+mIK9b3EdjzCPN34iYudSvITjClCagZur5vUQKJSWuCqJeLd
-# BtdpuFGpt1p4z0yETnym1rh/a3OLmMTAa/yrtmTCAQ9d15fFlLXlWHfO2gmeyqrH
-# s5Y8M7gqqY0=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFC2JM0Jo/hfpyDZq19io
+# SCITXqNwMA0GCSqGSIb3DQEBAQUABIGARK/2dIHaSpYrRR1PWsWrmEpzZqt22hpB
+# coHWN7Cdw5t1fIqhmDe5GEJrWttMGVqkwroiJItj1SkLjekBY1nMI4xpLLo/nk2o
+# AmFp62fpHwrTcPh0l6uBYByrec9y0bf6c3CIXH0j+3dkZD38p4nVU6k1JjhSN+4U
+# MsmFbC3rHM0=
 # SIG # End signature block

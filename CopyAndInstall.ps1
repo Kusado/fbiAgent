@@ -1,10 +1,14 @@
-﻿if((Get-AuthenticodeSignature .\CopyAndInstall.ps1).status -ne "Valid") {Break}
+﻿try {
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Started script",4)
+if((Get-AuthenticodeSignature $MyInvocation.MyCommand.Definition).status -ne "Valid") {
+    [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Script signature is not valid",1)
+    Break
+}
 
 If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
 [Security.Principal.WindowsBuiltInRole] "Administrator"))
 {
-        [System.Reflection.Assembly]::LoadWithPartialName(“System.Windows.Forms”)
-        [Windows.Forms.MessageBox]::Show("You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!")
+    [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Script does not have admin rights",1)
         Break
 }
 
@@ -33,28 +37,35 @@ if($trustedCert -eq $null){
     importCert $PublisherCertPath
 }
 
+    #Start-Sleep -Milliseconds 500
+
 
 $initialPath = "\\fenix\Distrib\Zabbix\fbiAgent\"
 $path = "C:\Windows\Zabbix\"
-
-get-process zabbix_agentd | Stop-Process -Force
-
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Killing zabbix process",4)
+get-process zabbix_agentd* | Stop-Process -Force
 
 Get-ChildItem -Path $path -Exclude '.*' | Remove-Item -Recurse -Force
 
 Get-ChildItem -Path $initialPath | Copy-Item -Destination $path -Force -Recurse
 
 Set-Location $path
-
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Uninstall zabbix service",4)
 .\UnInstall.ps1
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Install zabbix service",4)
 .\Install.ps1
 
 Set-Location $initialPath
+}
+catch [Exception] {
+    [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall",$_.Exception.Message,1)
+    return $_.Exception.Message
+}
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUUi1T3p22gGRlT0TXzAWex6J9
-# QpagggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU+ty0RqLiCbGmSEyfYVsndSzx
+# /mWgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -92,9 +103,9 @@ Set-Location $initialPath
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFEyPnYBCfZWRq3qMWW7J
-# dsVcmONaMA0GCSqGSIb3DQEBAQUABIGAqy8xvuFKRNaER+5YodODXQH2STqh+XMl
-# /+VZgvewaO9LCzDr7qxdSly0LfMtO8fn6KAjQI4KEVl6b17LxIzZg2ih3py+dAns
-# 4D1HiDlmY979lR/3DpgAYAEauTqGj0Y61NxS3SWaoZRDyznbXv/kPEAmAg+lTn5T
-# DLojaA+1iVo=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFOfre1meFWBA2vaH2VDa
+# ekFf3p/sMA0GCSqGSIb3DQEBAQUABIGAByaaFg87NiwqTMAhq51jy+IfyFgSXeOu
+# jiU0oFU9/IqvzMin2yhfhAuI7dM58fBnzW/yGsPLG6biIMsJRK/yLC24NFDY5561
+# ZgGdDsIm7ckMZC+WfU2OF6DrlWUNZaDMtJsaDiSSZVvHtdAkcDM87OlZ8D6Y+xIQ
+# 2m7yawSBhGo=
 # SIG # End signature block
