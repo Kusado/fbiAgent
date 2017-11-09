@@ -1,14 +1,26 @@
-﻿$path = "C:\Windows\Zabbix"
+﻿try {
+    
+
+
+$path = "C:\Windows\Zabbix"
 
 cd $path
 
-.\zabbix_agentd.exe --config .\zabbix_agentd.win.conf --install
-.\zabbix_agentd.exe --start
+C:\Windows\Zabbix\zabbix_agentd.exe --config C:\Windows\Zabbix\zabbix_agentd.win.conf --install
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Installed zabbix service",4)
+
+Get-Service 'Zabbix Agent' | Start-Service
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Started zabbix service",4)
+}
+catch [Exception] {
+    [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall",$_.Exception.Message,1)
+    return $_.Exception.Message
+}
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUrrrj2GrppnieP4gGS7y9Zg0z
-# A5CgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUOVA3OPqEm5Ef3y3bCxnJhVvR
+# OAKgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -46,9 +58,9 @@ cd $path
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFKA5bPi4lMksJ8ReXT/I
-# a/IbGRnbMA0GCSqGSIb3DQEBAQUABIGAMU+VsMtnqJ2GAWnSpmStMNAvZYj8/bdv
-# YMWEBD1xaCu+G+PoLF6WYt78ea6C1beAq30PMKKjG08H032NL9LIiu2DMwDXC1y+
-# J/izCrbdaqUzj3YPwMGBMIT3SVIRs+Y2rhP/+3QPjiY29DYGmPev7hR8RW2MfCy7
-# A9vCvMaGm3I=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFJkaI1AO0k8SrdLSam6x
+# sEXH6ppLMA0GCSqGSIb3DQEBAQUABIGAbA9i+Cc2+u7Qbs+COWhkc20aXtA3kzu3
+# qLWy8GqdOdOHcTbnyvwGgcnUV1Fiq/9A8atP+T+N+DzBIWVZaNnmVJtnrvgiNMfa
+# A1dh1xBLW14yD0yvxSmmI8on8pA7XnafHkfMlHml8sT8HXzL8L3pgF1mdbO6aOsP
+# LLpeBmu0lw0=
 # SIG # End signature block

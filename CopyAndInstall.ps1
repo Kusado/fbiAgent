@@ -1,7 +1,9 @@
 ﻿try {
 [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Started script",4)
+"Started script"
 if((Get-AuthenticodeSignature $MyInvocation.MyCommand.Definition).status -ne "Valid") {
     [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Script signature is not valid",1)
+    "Script signature is not valid"
     Break
 }
 
@@ -9,6 +11,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 [Security.Principal.WindowsBuiltInRole] "Administrator"))
 {
     [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Script does not have admin rights",1)
+    "Script does not have admin rights"
         Break
 }
 
@@ -42,20 +45,20 @@ if($trustedCert -eq $null){
 
 $initialPath = "\\fenix\Distrib\Zabbix\fbiAgent\"
 $path = "C:\Windows\Zabbix\"
-[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Killing zabbix process",4)
-get-process zabbix_agentd* | Stop-Process -Force
+
+
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Stop zabbix service",4)
+Get-Process zabbix_agentd* | Stop-Process -Force
+
+[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Uninstall zabbix service",4)
+\\fenix\Distrib\Zabbix\fbiAgent\UnInstall.ps1
 
 Get-ChildItem -Path $path -Exclude '.*' | Remove-Item -Recurse -Force
 
 Get-ChildItem -Path $initialPath | Copy-Item -Destination $path -Force -Recurse
 
-Set-Location $path
-[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Uninstall zabbix service",4)
-.\UnInstall.ps1
 [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Install zabbix service",4)
-.\Install.ps1
-
-Set-Location $initialPath
+\\fenix\Distrib\Zabbix\fbiAgent\Install.ps1
 }
 catch [Exception] {
     [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall",$_.Exception.Message,1)
@@ -64,8 +67,8 @@ catch [Exception] {
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU+ty0RqLiCbGmSEyfYVsndSzx
-# /mWgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUZFpdVEsMbxhRkBTk5Bjv2RLH
+# hjigggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -103,9 +106,9 @@ catch [Exception] {
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFOfre1meFWBA2vaH2VDa
-# ekFf3p/sMA0GCSqGSIb3DQEBAQUABIGAByaaFg87NiwqTMAhq51jy+IfyFgSXeOu
-# jiU0oFU9/IqvzMin2yhfhAuI7dM58fBnzW/yGsPLG6biIMsJRK/yLC24NFDY5561
-# ZgGdDsIm7ckMZC+WfU2OF6DrlWUNZaDMtJsaDiSSZVvHtdAkcDM87OlZ8D6Y+xIQ
-# 2m7yawSBhGo=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFPNG9Q3tHr5nq3keGOF9
+# kr26iHgaMA0GCSqGSIb3DQEBAQUABIGAKZmOQFTP9yB7JxdbEiWtiiYgYB1DsrJB
+# JFmvM/yfdIdSLJqtWhTuslWeSxO8pzhYUWXZuYks/LoU2s0Xuo4W8sR1M9EleMRO
+# Mrsph86PTXrLPmeG4W1DtTdwidKQF2TUZno34eOabaR7IagIuMCBNNFWTul1Ckii
+# n/e4ZRVJ5zw=
 # SIG # End signature block
