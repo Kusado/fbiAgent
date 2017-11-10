@@ -1,19 +1,29 @@
 Param(
-  [Parameter(Mandatory=$False,Position=1)]    
-  [string]$serverVerison,
-  [Parameter(Mandatory=$False,Position=2)]    
-  [string]$param2
-  )
-  if ($serverVerison -eq 'server') {
-    \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
-  }else{
-    20171100902
-  }
+    [Parameter(Mandatory=$False,Position=1)]    
+    [string]$param1,
+    [Parameter(Mandatory=$False,Position=2)]    
+    [string]$param2
+    )
+
+    Clear-Host
+    
+    $scriptRoot = "C:\Windows\Zabbix\Scripts";
+    Set-Location $scriptRoot;
+    . .\function.GetDataTable.ps1
+    
+    $query = "SELECT 654321987";
+    
+    $dt = GetDataTable -_query $query -serviceName $param1
+    if($dt[0][0] -eq 654321987){
+        return 'true'
+    }else {
+        return 'false'
+    }
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUR3xLgR6X9Gdy5d3MB8UsiFI0
-# EQagggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUSTgJQENICpwUcKw4wH/FAt3U
+# KBGgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -51,9 +61,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFA9q45np8/uVYWPIaW1X
-# i+Er7MWpMA0GCSqGSIb3DQEBAQUABIGADcSvb88Ni9GCyuFxLm82KJZvWLP3/xvq
-# HcYXuLYl/aMay5mGa+yqRq27O+SQ1jpn4tAj0E50HvzYFICdenoBUipyEjK/kdiF
-# cjhzSSW34znHAAtf8EkJpBuRl8HoDnN4bvSnPsyE5HzfMXZydnROfLahZthD7590
-# 9836RZ9T4ps=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFJKdzd10d0FcQ4642OIU
+# BAWrsMrhMA0GCSqGSIb3DQEBAQUABIGAhHJFkmWWdfGOAU7TtMw1DlnNd9Yjjl3O
+# 3Hw1mBeAF7BdQO/SicGXm/C0kJOLKeNQagzVpHHpqsRjHndWHbda8lbzNYYQP7mP
+# oo72RxzLMUNRn2Sy2VZDaEwG05cDQIA/Evv1n3tKGsMexm+rvKnpIV/EKs2W+bVQ
+# OIggsEItRxo=
 # SIG # End signature block

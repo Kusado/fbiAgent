@@ -1,19 +1,19 @@
 Param(
-  [Parameter(Mandatory=$False,Position=1)]    
-  [string]$serverVerison,
-  [Parameter(Mandatory=$False,Position=2)]    
-  [string]$param2
-  )
-  if ($serverVerison -eq 'server') {
-    \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
-  }else{
-    20171100902
-  }
+    [Parameter(Mandatory=$False,Position=1)]    
+    [string]$param1,
+    [Parameter(Mandatory=$False,Position=2)]    
+    [string]$param2
+    )
+
+    Clear-Host
+    
+    $scriptRoot = "C:\Windows\Zabbix\Scripts";
+    Set-Location $scriptRoot;
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUR3xLgR6X9Gdy5d3MB8UsiFI0
-# EQagggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUq5SF4AhMsRwrIvgPj05tsIHt
+# j9OgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -51,9 +51,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFA9q45np8/uVYWPIaW1X
-# i+Er7MWpMA0GCSqGSIb3DQEBAQUABIGADcSvb88Ni9GCyuFxLm82KJZvWLP3/xvq
-# HcYXuLYl/aMay5mGa+yqRq27O+SQ1jpn4tAj0E50HvzYFICdenoBUipyEjK/kdiF
-# cjhzSSW34znHAAtf8EkJpBuRl8HoDnN4bvSnPsyE5HzfMXZydnROfLahZthD7590
-# 9836RZ9T4ps=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFCO6ons/YIBEWaF6y4/b
+# DOVk5nXxMA0GCSqGSIb3DQEBAQUABIGAuPc71d2RNlUdve1IFnEiYMVIrvtGy89f
+# 5/8WaoNrDIqzxJD9OUAbW6xW3XS8XG+Rrpg2mvEZreVz7k83EdwwRKgcRQmHW102
+# sShQ7pbzq+fsf5BLnXhgZY1EX0OM8EP8QKFX4sPJ66B3hZL31Q4Vl8vyfL4fn8t2
+# m6D2KxpCZeA=
 # SIG # End signature block

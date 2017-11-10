@@ -4,11 +4,31 @@ Param(
     [Parameter(Mandatory=$False,Position=2)]    
     [string]$param2
     )
+
+    Clear-Host
+    
+    $scriptRoot = "C:\Windows\Zabbix\Scripts";
+    Set-Location $scriptRoot;
+    . .\function.GetDataTable.ps1
+    
+    $query = "SELECT ROUND(SUM(mf.size) * 8 / 1024, 0) Size_MBs`
+    FROM sys.master_files mf`
+    INNER JOIN sys.databases d ON d.database_id = mf.database_id`
+    WHERE d.database_id > 4 -- Skip system databases`
+    GROUP BY d.name";
+
+    $dt = GetDataTable -_query $query -serviceName $param1
+    $dbSizeSumm = 0;
+    foreach ($row in $dt) {
+        $dbSizeSumm+=$row[0]
+    }
+    $dbSizeSumm
+
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0lm2DP9rBOlKGo3jG3jdeqEh
-# 6/egggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUW0JABAw6L+9MtV4Wav/U9HP/
+# 6n6gggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -46,9 +66,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFLK+YjSbHo2fjNQO6dHT
-# Klz/ro7hMA0GCSqGSIb3DQEBAQUABIGApDlHFpVkCwvWlcp6GR9WbOtrTSLmIDMg
-# OMdOqHr5z47RvAoZ6Gm1kk4kdcRd4pIlh0XbX4u7zCDX/H4iRkHe/UUA9rQawust
-# 174ii68jnIn6nG9qsOSEr0y8rGVI+jhqlrPg+IIBjoKjqWInFDnNXsTA9kajhMVC
-# Z/wqeyLHmN4=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFLeeyFt90koX0T0ngsMR
+# l5aND9QKMA0GCSqGSIb3DQEBAQUABIGAFmA3UcN630XSGgdSmr31j4ccaTVtNNAY
+# cOMF64fZjewaR37/jhFCnwPGtDGLqBNaXrVAx2g2b34Tolq+Rc4eKUFk/sHq0v2p
+# JWUq2TBdbj7zbALEL5jj6CQtJ05xmZxd2L+SOgGD0YQS/nJ6ZfOYBnep0KJlQfHZ
+# v5u6zdgW/gk=
 # SIG # End signature block

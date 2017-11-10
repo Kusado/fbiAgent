@@ -1,19 +1,39 @@
-Param(
-  [Parameter(Mandatory=$False,Position=1)]    
-  [string]$serverVerison,
-  [Parameter(Mandatory=$False,Position=2)]    
-  [string]$param2
-  )
-  if ($serverVerison -eq 'server') {
-    \\fenix.formulabi.local\Distrib\Zabbix\fbiAgent\Scripts\windows.configVersion.ps1
-  }else{
-    20171100902
-  }
+function GetDataTable ([string]$_query, [string]$serviceName) {
+    try {
+
+        if($serviceName -eq "MSSQLSERVER") {$datasource = "LOCALHOST"}
+        elseif ($serviceName -like "MSSQL$*") {$datasource = "LOCALHOST\"+$serviceName.Replace("MSSQL$","");}
+        else {
+            return 'false'
+        }
+    
+        $_builder=$null;
+        $_builder = New-Object System.Data.SqlClient.SqlConnectionStringBuilder;
+        $_builder["Data Source"] = $datasource;
+        $_builder["Integrated Security"]=$true;
+        $_builder["Connect Timeout"] = 2;
+        #$_builder["ConnectRetryCount"] = 10;
+        $_builder["ConnectRetryInterval"] = 2;
+        $_builder["MultipleActiveResultSets"] = $true;
+
+        $_SQLConnection = New-Object System.Data.SqlClient.SqlConnection($_builder.ToString());
+        $_SQLConnection.Open();
+        $_SQLCommand = New-Object System.Data.SqlClient.SqlCommand($_query,$_SQLConnection);
+        $_dataTable = New-Object System.Data.DataTable;
+        $_dataTable.Load($_SQLCommand.ExecuteReader());
+        $_SQLConnection.Close();
+        return $_dataTable;        
+    }
+    catch [Exception]{
+        throw $_
+    }
+}
+
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUR3xLgR6X9Gdy5d3MB8UsiFI0
-# EQagggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkum9+8Pw2h18GmIgLejvHuKd
+# xU6gggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -51,9 +71,9 @@ Param(
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFA9q45np8/uVYWPIaW1X
-# i+Er7MWpMA0GCSqGSIb3DQEBAQUABIGADcSvb88Ni9GCyuFxLm82KJZvWLP3/xvq
-# HcYXuLYl/aMay5mGa+yqRq27O+SQ1jpn4tAj0E50HvzYFICdenoBUipyEjK/kdiF
-# cjhzSSW34znHAAtf8EkJpBuRl8HoDnN4bvSnPsyE5HzfMXZydnROfLahZthD7590
-# 9836RZ9T4ps=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFOhvVarumYFzXJtCXF1O
+# haWZ+QECMA0GCSqGSIb3DQEBAQUABIGAilKQomOF1vihOLR/QVW7b/Feu18lm6TM
+# wY1BtUlIPJJShAZvegXYjVUR5E7raG7NQl4v3eTMPozDwvGVPZk3z4cydlv1G8tl
+# iofoH5GHP3WrsONTqEywIwTFkfciH01fbHvmq9HOcfHfZhqSLTtKhInjj7pFwICe
+# cOGDWuMWGjM=
 # SIG # End signature block
