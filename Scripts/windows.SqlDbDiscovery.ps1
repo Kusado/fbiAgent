@@ -1,26 +1,37 @@
-﻿try {
+ Param(
+        [Parameter(Mandatory=$False,Position=1)]    
+        [string]$param1,
+        [Parameter(Mandatory=$False,Position=2)]    
+        [string]$param2
+        )
     
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8  
+        Clear-Host
+        
+        $scriptRoot = "C:\Windows\Zabbix\Scripts";
+        Set-Location $scriptRoot;
+
+        . .\func.JSON.ps1
+        . .\function.GetDataTable.ps1
+        . .\windows.serviceDiscovery.ps1 | Out-Null
+
+    $SqlServices = Get-Service | where {$_.StartType -eq "Auto" -and $_.Name -like "MSSQL*" }
+
+    foreach ($SqlService in $SqlServices) {
+        
+    }
+
+    #    [Console]::WriteLine( $zabbixLLD )
 
 
-$path = "C:\Windows\Zabbix"
 
-cd $path
 
-C:\Windows\Zabbix\zabbix_agentd.exe --config C:\Windows\Zabbix\zabbix_agentd.win.conf --install
-[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Installed zabbix service",4)
-start-sleep -Milliseconds 500;
-Get-Service 'Zabbix Agent' | Start-Service
-[System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall","Started zabbix service",4)
-}
-catch [Exception] {
-    [System.Diagnostics.EventLog]::WriteEntry("CopyAndInstall",$_.Exception.Message,1)
-    return $_.Exception.Message
-}
+    
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU03lx4bLt+Yxt9/S/pX7QhkYx
-# rnOgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUPwiWQ5u15OLCdrNGjFfgiuva
+# iGWgggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -58,9 +69,9 @@ catch [Exception] {
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFOEZkneW5DsDxWyOL+da
-# vimFpTdCMA0GCSqGSIb3DQEBAQUABIGAzPY1JxYoEUHloWM4HuqdoOiXQZe8n/t0
-# /7QIhlXPiaXHwcLPEZ6Qzgn9K9li+JHd6fL+fvAlNVyJDbNBVUJqtH/LMBHr8RT4
-# 2QpwUfYkXaug105O14PTg/96wnwTYNdEalQMisto0usEyLqeKBtMjIe6UTuTs3MT
-# +wcjT1ZiPVI=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFPsKeiS2pW+vzHftCoFe
+# 40RegfQ2MA0GCSqGSIb3DQEBAQUABIGAv6LH+JmYzKk6edrOza5E1QqkJcJ8heBp
+# Tx/9YYRBYMqFM2Ok4jSnEmJiUZI+yviKNJ17UorTS/FI8UP0uFSnpKsr0PgLCOdM
+# ke5YJ+5999R79moCo1Ll2pR8jfu386elnv/ym+LYHUYO4ulRWrlPDK/pKhL7MK1J
+# NKyiRws4eak=
 # SIG # End signature block

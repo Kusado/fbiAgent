@@ -15,9 +15,9 @@ Param(
     
     $dt = GetDataTable -_query $query -serviceName $param1
     if($dt[0][0] -eq 654321987){
-        return 'true'
+        return $true
     }else {
-        return 'false'
+        return $false
     }
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB

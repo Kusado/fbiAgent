@@ -13,7 +13,7 @@ function GetDataTable ([string]$_query, [string]$serviceName) {
         $_builder["Integrated Security"]=$true;
         $_builder["Connect Timeout"] = 2;
         #$_builder["ConnectRetryCount"] = 10;
-        $_builder["ConnectRetryInterval"] = 2;
+        #$_builder["ConnectRetryInterval"] = 2;
         $_builder["MultipleActiveResultSets"] = $true;
 
         $_SQLConnection = New-Object System.Data.SqlClient.SqlConnection($_builder.ToString());
@@ -32,8 +32,8 @@ function GetDataTable ([string]$_query, [string]$serviceName) {
 # SIG # Begin signature block
 # MIIIdAYJKoZIhvcNAQcCoIIIZTCCCGECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkum9+8Pw2h18GmIgLejvHuKd
-# xU6gggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUSBnfMrKwj+RAvA4QP0dmGwIm
+# RfigggZfMIIGWzCCBEOgAwIBAgITHAAAABfTJzYopHkkRwAAAAAAFzANBgkqhkiG
 # 9w0BAQsFADBIMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxGTAXBgoJkiaJk/IsZAEZ
 # FglGb3JtdWxhQkkxFDASBgNVBAMTC0Zvcm11bGEtREMzMB4XDTE3MDYyMTEwNDAw
 # MloXDTE4MDYyMTEwNDAwMlowezEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRkwFwYK
@@ -71,9 +71,9 @@ function GetDataTable ([string]$_query, [string]$serviceName) {
 # CgmSJomT8ixkARkWCUZvcm11bGFCSTEUMBIGA1UEAxMLRm9ybXVsYS1EQzMCExwA
 # AAAX0yc2KKR5JEcAAAAAABcwCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcCAQwxCjAI
 # oAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIB
-# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFOhvVarumYFzXJtCXF1O
-# haWZ+QECMA0GCSqGSIb3DQEBAQUABIGAilKQomOF1vihOLR/QVW7b/Feu18lm6TM
-# wY1BtUlIPJJShAZvegXYjVUR5E7raG7NQl4v3eTMPozDwvGVPZk3z4cydlv1G8tl
-# iofoH5GHP3WrsONTqEywIwTFkfciH01fbHvmq9HOcfHfZhqSLTtKhInjj7pFwICe
-# cOGDWuMWGjM=
+# CzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFMJW5J/G1NEASA78MqJz
+# TeT/koQSMA0GCSqGSIb3DQEBAQUABIGAbJGfeUt0xBycfwYJDx5VYBIzyzqmz4IA
+# tbRi2jWTKf4LEJrmeyRztnUqDUyDmz1WHf0X5sa1RTCxs4BK4ZT8MFgVdEGGjXsG
+# 4wS7cfoWDWYuM+llrmt4t5nuo+0UMEumjMt4mjJU/3AOhCinq/RvdLE0iNVFspzK
+# 3/7PgkJAixo=
 # SIG # End signature block
